@@ -1,0 +1,4 @@
+예시
+
+alter table question
+modify column goooroooorom datetime(6) after groomgroom;
