@@ -30,6 +30,66 @@
         데이터를 조회하고 관리할 수 있는 관리 화면을 지원합니다.
         호환성: 표준 SQL을 지원하며 MySQL, 
         Oracle 등 다른 주요 데이터베이스 모드와 호환됩니다.
+
+
+        내 컴퓨터에 무거운 프로그램(MySQL, Oracle 등)을 설치하지 않고 스프링 부트와 연결해 무료로 사용할 수 있는 데이터베이스는 크게 두 가지 방향이 있습니다.
+내 컴퓨터 메모리에서 임시로 작동하는 인메모리 DB를 쓰거나, 인터넷상에 개설된 클라우드 무료 DB(서버리스/SaaS)를 이용하는 방법입니다.
+------------------------------
+## 1. 프로그램 설치가 필요 없는 클라우드 무료 DB (추천)
+인터넷을 통해 원격으로 접속하는 방식입니다. 내 컴퓨터에 설치할 필요가 없고, 외부 배포(클라우드 호스팅) 시에도 그대로 연결할 수 있어 실제 토이 프로젝트에 가장 많이 쓰입니다.
+
+| DB 서비스명 | 데이터베이스 종류 | 무료 플랜 주요 특징 |
+|---|---|---|
+| Supabase | PostgreSQL | 신용카드 등록 없이 500MB까지 제공, 스프링 부트 연동이 간편함 |
+| Render PostgreSQL[](https://render.com/docs/free) | PostgreSQL | 가입 즉시 무료 데이터베이스 생성 가능 (단, 생성 후 90일 만료 제약 있음) |
+| Neon | PostgreSQL | 서버리스 구조의 PostgreSQL, 무료 0.5GiB 스토리지 제공 |
+| MongoDB Atlas[](https://www.mongodb.com/resources/basics/databases/cloud-databases/free-cloud-database) | MongoDB (NoSQL) | 신용카드 없이 평생 무료 공유 클러스터(512MB~5GB) 제공 |
+
+💡 연결 방법: 각 사이트 회원가입 후 제공되는 접속 URL(jdbc:postgresql://...)과 ID, Password를 스프링 부트의 application.properties (또는 application.yml) 파일에 붙여넣기만 하면 바로 작동합니다.
+
+------------------------------
+## 2. 인메모리(In-Memory) 임시 데이터베이스
+클라우드 서비스 회원가입조차 귀찮고, 연습용으로 즉시 실행하고 싶다면 스프링 부트 자체 내장 DB를 쓰면 됩니다.
+
+* H2 Database (가장 추천)
+* 스프링 부트가 실행되는 동안 컴퓨터의 RAM(메모리) 안에만 존재하는 임시 데이터베이스입니다.
+   * 별도의 설치가 전혀 필요 없으며, 애플리케이션을 종료하면 데이터가 초기화되므로 순수한 테스트/연습용으로 최적입니다. [1, 2, 3] 
+
+## 🛠️ H2 Database 사용 방법 (설정 1분 컷)
+1. build.gradle에 의존성 추가
+
+dependencies {
+    // JPA와 H2 데이터베이스 의존성만 추가하면 끝입니다.
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    runtimeOnly 'com.h2database:h2'
+}
+
+2. src/main/resources/application.properties 설정
+
+# H2 데이터베이스 활성화 및 메모리 모드 설정
+spring.datasource.url=jdbc:h2:mem:testdb
+spring.datasource.driver-class-name=org.h2.Driver
+spring.datasource.username=sa
+spring.datasource.password=
+
+# 웹 브라우저에서 DB 콘솔을 볼 수 있게 허용
+spring.h2.console.enabled=true
+
+이렇게 설정한 후 스프링 부트를 실행하고, 웹 브라우저에서 http://localhost:8080/h2-console로 접속하면 설치 없이 웹 화면에서 테이블과 데이터를 바로 확인할 수 있습니다.
+------------------------------
+## 어떤 것을 선택해야 할까요?
+
+* 간단한 스프링 부트 기능 학습 및 일회성 테스트가 목적이라면 ➡️ H2 Database를 사용하세요.
+* 데이터를 계속 유지하고 싶거나 팀원과 공유하는 토이 프로젝트/포트폴리오 제작이 목적이라면 ➡️ 카드 등록이 필요 없는 Supabase나 MongoDB Atlas를 추천합니다. [4, 5] 
+
+개발하시려는 프로젝트의 성격(연습용인지, 결과물을 남길 것인지)을 말씀해 주시면, 목적에 딱 맞는 DB 선택과 구체적인 연결 설정 코드를 더 자세히 안내해 드릴게요!
+
+[1] [https://bnzn2426.tistory.com](https://bnzn2426.tistory.com/127)
+[2] [https://stackoverflow.com](https://stackoverflow.com/questions/78599560/is-there-a-way-to-use-spring-cloud-task-without-using-declaring-relational-datab)
+[3] [https://stackoverflow.com](https://stackoverflow.com/questions/43395493/spring-boot-without-database)
+[4] [https://www.mongodb.com](https://www.mongodb.com/resources/basics/databases/cloud-databases/free-cloud-database)
+[5] [https://hjw11911.tistory.com](https://hjw11911.tistory.com/209)
+
     </pre>
 </body>
 
