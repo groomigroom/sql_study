@@ -1,0 +1,34 @@
+문제 50
+
+4지선다
+테이블 T에 대한 객체 권한과 롤을 다음과 같이 부여한 후 INSERT 권한을 회수하였다. 이에 대한 설명으로 옳은 것은?
+
+SQL
+GRANT SELECT, INSERT ON T TO STAFF;
+GRANT DELETE, UPDATE ON T TO MGR;
+GRANT STAFF TO MGR;
+GRANT MGR TO CHULSU;
+GRANT STAFF TO YOUNGHEE;
+
+REVOKE INSERT ON T FROM STAFF;
+1.
+DROP ROLE STAFF를 수행하면 철수(CHULSU)가 MGR을 통해 사용하던 SELECT 권한도 사라진다.
+
+2.
+철수는 STAFF 롤을 직접 부여받지 않았으므로 T를 SELECT할 수 없다.
+
+3.
+영희(YOUNGHEE)는 T에 대한 DELETE 권한을 사용할 수 있다.
+
+4.
+철수의 INSERT 권한을 없애려면 STAFF와 MGR 양쪽에서 INSERT 권한을 각각 회수해야 한다.
+
+정답
+
+1번
+
+DROP ROLE STAFF를 수행하면 철수(CHULSU)가 MGR을 통해 사용하던 SELECT 권한도 사라진다.
+
+해설
+
+정답은 ① STAFF가 가진 SELECT 권한은 STAFF→MGR→CHULSU의 중첩 롤 경로로 철수에게 도달한다. STAFF 롤을 삭제하면 이 롤의 객체 권한과 MGR에 대한 롤 부여도 함께 없어지므로 철수의 SELECT 권한도 사라진다. ② 롤은 다른 롤에 부여될 수 있으므로 철수는 MGR을 통해 STAFF의 SELECT를 사용할 수 있다. ③ 영희는 STAFF만 받았고 DELETE는 MGR에만 있으므로 사용할 수 없다. ④ INSERT는 STAFF에만 부여된 뒤 이미 REVOKE되었으며 MGR의 직접 권한이 아니므로 두 롤에서 각각 회수할 필요가 없다.
