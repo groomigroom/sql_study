@@ -1,0 +1,35 @@
+문제 49
+
+4지선다
+Oracle에서 다음과 같이 테이블을 생성하였다. 이어서 제시된 ALTER TABLE 문을 각각 독립적으로 실행할 때 문법 오류가 발생하는 것은? 다른 테이블에서 EMP.EMPNO를 참조하는 외래 키는 없다.
+
+SQL
+CREATE TABLE DEPT (
+  DEPTNO NUMBER PRIMARY KEY
+);
+
+CREATE TABLE EMP (
+  EMPNO  NUMBER CONSTRAINT EMP_PK PRIMARY KEY,
+  DEPTNO NUMBER CONSTRAINT EMP_FK REFERENCES DEPT(DEPTNO)
+);
+1.
+ALTER TABLE EMP DROP PRIMARY KEY;
+
+2.
+ALTER TABLE EMP DROP FOREIGN KEY;
+
+3.
+ALTER TABLE EMP DROP COLUMN DEPTNO;
+
+4.
+SQL
+ALTER TABLE EMP ADD (HIREDATE DATE DEFAULT SYSDATE);
+정답
+
+2번
+
+ALTER TABLE EMP DROP FOREIGN KEY;
+
+해설
+
+정답은 ② DROP FOREIGN KEY라는 독립된 Oracle ALTER TABLE 구문은 없다. 외래 키는 이름을 지정해 ALTER TABLE EMP DROP CONSTRAINT EMP_FK로 제거해야 한다. ① Oracle은 테이블의 기본 키 제약조건을 DROP PRIMARY KEY로 제거하는 문법을 제공하며, 문제에서 EMP의 기본 키를 참조하는 다른 외래 키도 없다고 했다. ③ DEPTNO는 부모 키가 아니라 EMP가 외부를 참조하는 단일 외래 키 칼럼이므로 칼럼을 제거할 수 있다. ④ 기본값이 SYSDATE인 DATE 칼럼을 추가하는 정상 문법이다. 보충: 기본 키 칼럼 자체를 삭제하는 것과 기본 키 제약조건을 삭제하는 것은 다르다.
