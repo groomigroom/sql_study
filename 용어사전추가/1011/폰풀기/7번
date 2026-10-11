@@ -1,0 +1,46 @@
+문제 44
+
+4지선다
+다음 EMP 테이블과 계층형 질의를 실행했을 때, 실행 결과의 괄호 안에 들어갈 값은?
+
+EMP
+
+EMPNO	NAME	MGR
+7782	CLARK	NULL
+7839	KING	NULL
+7844	ALLEN	7782
+7876	ALLEN	7839
+7900	SMITH	7839
+SQL
+SELECT CONNECT_BY_ROOT EMPNO AS ROOT_EMPNO, COUNT(*) AS CNT
+FROM EMP
+START WITH MGR IS NULL
+CONNECT BY MGR = PRIOR EMPNO
+GROUP BY CONNECT_BY_ROOT EMPNO
+ORDER BY ROOT_EMPNO;
+실행 결과
+
+ROOT_EMPNO	CNT
+7782	2
+7839	( ㄱ )
+1.
+2
+
+2.
+3
+
+3.
+4
+
+4.
+5
+
+정답
+
+2번
+
+3
+
+해설
+
+정답은 ② 3이다. START WITH MGR IS NULL은 7782와 7839를 각각 루트로 정하고, CONNECT BY MGR = PRIOR EMPNO는 현재 행의 MGR이 부모 행의 EMPNO와 같은 자식 방향으로 전개한다. 7839를 루트로 하는 계층에는 루트 KING 자신과 직속 자식인 7876, 7900이 포함되므로 COUNT(*)는 3이다. 7782 계층도 루트 자신과 7844를 합쳐 2가 되어 제시 결과와 일치한다. ①은 루트 자신을 빼고 자식만 센 값이며, ③과 ④는 7782 쪽 행이나 중복된 NAME을 잘못 합산한 값이다.
