@@ -1,0 +1,44 @@
+문제 23
+
+4지선다
+다음 테이블 T1, T2에 대해 MERGE 문을 수행한 후 T1의 TOTAL_PAY 합계로 옳은 것은?
+
+T1.NUM	T1.SALARY	T1.TOTAL_PAY
+1001	5000	5000
+1002	3000	3000
+1003	4000	4000
+T2.NUM	T2.COMM
+1001	1000
+1002	0
+1004	1000
+SQL
+MERGE INTO T1 A
+USING T2 B
+   ON (A.NUM = B.NUM)
+WHEN MATCHED THEN
+   UPDATE SET A.TOTAL_PAY = A.SALARY + B.COMM
+   DELETE WHERE A.TOTAL_PAY < 4000
+WHEN NOT MATCHED THEN
+   INSERT (NUM, SALARY, TOTAL_PAY)
+   VALUES (B.NUM, 3000, 3000);
+1.
+10000
+
+2.
+13000
+
+3.
+16000
+
+4.
+19000
+
+정답
+
+2번
+
+13000
+
+해설
+
+정답은 ② 13000이다. NUM 1001은 매칭되어 TOTAL_PAY가 5000+1000=6000으로 갱신되고 삭제 조건을 통과하지 않는다. 1002는 3000+0=3000으로 갱신된 뒤 4000 미만이므로 삭제된다. T2와 매칭되지 않는 기존 T1의 1003은 그대로 4000을 유지한다. T1에 없던 1004는 NOT MATCHED 절로 (1004, 3000, 3000)이 삽입되며 MATCHED 절의 DELETE 대상이 아니다. 최종 합은 6000+4000+3000=13000이다. ③ 16000은 삭제될 1002의 3000까지 더한 값이며, ①과 ④도 최종 생존 행을 올바르게 반영하지 못한 값이다.
