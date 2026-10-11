@@ -1,0 +1,36 @@
+문제 45
+
+4지선다
+다음 SALES 테이블의 월별 금액 칼럼을 행으로 변환하려고 한다. SQL의 괄호 안에 들어갈 내용으로 옳은 것은?
+
+SALES
+
+ID	AMOUNT_3	AMOUNT_2	AMOUNT_1
+100	20	30	40
+200	50	60	45
+SQL
+SELECT ID, 구분, AMOUNT
+FROM SALES
+UNPIVOT (AMOUNT FOR 구분 IN ( ㄱ ))
+WHERE AMOUNT <= 40;
+1.
+40, 30, 20
+
+2.
+AMOUNT_3, AMOUNT_2, AMOUNT_1
+
+3.
+AMOUNT, AMOUNT, AMOUNT
+
+4.
+ID, 구분, AMOUNT
+
+정답
+
+2번
+
+AMOUNT_3, AMOUNT_2, AMOUNT_1
+
+해설
+
+정답은 ② AMOUNT_3, AMOUNT_2, AMOUNT_1이다. UNPIVOT의 IN 절에는 세로 방향으로 전환할 원본 칼럼들을 나열한다. 이 칼럼들의 값은 새 값 칼럼 AMOUNT로 내려가고, 어느 원본 칼럼에서 왔는지는 새 구분 칼럼에 기록된다. ①은 원본 칼럼명이 아니라 첫 행의 데이터 값이므로 사용할 수 없다. ③은 변환 후 생성되는 값 칼럼을 반복했을 뿐 원본 칼럼을 지정하지 않았다. ④는 SELECT 결과 칼럼 목록이며 UNPIVOT 대상 목록이 아니다. 실제 변환 후 WHERE를 적용하면 ID 100의 20, 30, 40 세 행만 남는다.
