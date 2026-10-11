@@ -1,0 +1,23 @@
+다음 중 실행 결과로 NULL이 반환되지 않는 것은?
+
+1.
+CASE 'AB' WHEN 'CD' THEN 'EF' END
+
+2.
+DECODE('AB', 'CD', 'EF', NULL)
+
+3.
+COALESCE('AB', 'CD', NULL)
+
+4.
+NULLIF('A', 'A')
+
+정답
+
+3번
+
+COALESCE('AB', 'CD', NULL)
+
+해설
+
+정답은 ③ COALESCE('AB', 'CD', NULL)이다. COALESCE는 왼쪽부터 평가하여 최초의 NULL이 아닌 값을 반환하므로 첫 인수인 'AB'가 곧 결과가 된다. ①은 CASE의 비교값 'AB'와 WHEN 값 'CD'가 다르고 ELSE가 없으므로 NULL이다. ②는 DECODE의 검색값이 일치하지 않아 마지막 기본값 NULL을 반환한다. ④는 NULLIF의 두 인수가 모두 'A'로 같으므로 NULL을 반환한다. 따라서 네 식 중 비NULL 문자열을 돌려주는 식은 ③ 하나뿐이다. 보충: CASE에서 ELSE를 생략하면 조건 불일치 시 기본 결과는 NULL이다.
