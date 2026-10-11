@@ -1,0 +1,26 @@
+문제 30
+
+4지선다
+사원 테이블(사원번호, 관리자번호, 직급)에 대한 다음 계층 질의 중, 계층(트리)이 정상적으로 전개되지 않는 것은?
+
+1.
+SELECT * FROM 사원 START WITH 관리자번호 IS NULL CONNECT BY PRIOR 사원번호 = 관리자번호;
+
+2.
+SELECT * FROM 사원 START WITH 사원번호 = 1000 CONNECT BY PRIOR 사원번호 = 관리자번호;
+
+3.
+SELECT * FROM 사원 START WITH 관리자번호 IS NULL CONNECT BY PRIOR 사원번호 = 관리자번호 AND 직급 <> '인턴';
+
+4.
+SELECT * FROM 사원 START WITH 관리자번호 IS NULL CONNECT BY 사원번호 = 관리자번호;
+
+정답
+
+4번
+
+SELECT * FROM 사원 START WITH 관리자번호 IS NULL CONNECT BY 사원번호 = 관리자번호;
+
+해설
+
+계층 질의에서 부모-자식 연결은 CONNECT BY 절의 PRIOR로 지정한다. ④는 CONNECT BY에 PRIOR가 없어 같은 행 내에서 사원번호=관리자번호를 비교할 뿐 상하위 관계를 전개하지 못하므로 루트 이후로 트리가 만들어지지 않는다. ①②는 시작점만 다를 뿐 정상 전개되고, ③은 AND 조건으로 특정 직급(인턴)을 가지치기해도 PRIOR가 있어 트리는 정상적으로 전개된다.
