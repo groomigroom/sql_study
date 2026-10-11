@@ -1,0 +1,55 @@
+다음 테이블 T1, T2에 대해 (가)~(라) SQL 중 결과 행 수가 가장 많은 것은?
+
+T1.ID
+100
+200
+100
+300
+T2.ID	T2.NAME	T2.COUNTRY
+100	Hugo	FR
+200	Shakespeare	UK
+300	Goethe	DE
+SQL
+-- (가)
+SELECT T1.ID, T2.NAME
+FROM T1 LEFT OUTER JOIN T2
+  ON T1.ID = T2.ID AND T2.COUNTRY = 'UK';
+
+-- (나)
+SELECT T1.ID, T2.NAME
+FROM T1 LEFT OUTER JOIN T2
+  ON T1.ID = T2.ID
+WHERE T2.COUNTRY = 'UK';
+
+-- (다)
+SELECT T1.ID, T2.NAME
+FROM T1 INNER JOIN T2
+  ON T1.ID = T2.ID
+WHERE T2.COUNTRY = 'UK';
+
+-- (라)
+SELECT T1.ID, T2.NAME
+FROM T1 RIGHT OUTER JOIN T2
+  ON T1.ID = T2.ID
+WHERE T2.COUNTRY = 'UK';
+1.
+(가)
+
+2.
+(나)
+
+3.
+(다)
+
+4.
+(라)
+
+정답
+
+1번
+
+(가)
+
+해설
+
+정답은 ① (가)이다. (가)는 COUNTRY 조건이 LEFT OUTER JOIN의 ON 절에 있으므로 UK인 T2 행만 매칭에 참여하되 왼쪽 T1의 네 행은 모두 보존되어 4행을 반환한다. (나)는 외부 조인 뒤 WHERE에서 T2.COUNTRY가 UK인 행만 남겨 미매칭 NULL 확장 행이 제거되므로 1행이다. (다)도 ID 200의 UK 일치 행만 남아 1행이다. (라)는 오른쪽 T2를 보존하지만 WHERE 조건이 UK인 T2 행 하나만 통과하므로 역시 1행이다. 따라서 결과 행 수는 각각 4, 1, 1, 1이며 가장 많은 쿼리는 (가)다.
