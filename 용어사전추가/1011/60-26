@@ -1,0 +1,29 @@
+문제 26
+
+4지선다
+다음 SQL이 급여 오름차순으로 첫 행부터 현재 행까지의 급여 누적합계를 계산하도록 (㉠)에 들어갈 윈도우 프레임 절로 옳은 것은?
+
+SQL
+SELECT 급여, SUM(급여) OVER (ORDER BY 급여 (㉠)) AS 누적합계
+FROM 사원;
+1.
+RANGE BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+
+2.
+ROWS BETWEEN 1 PRECEDING AND 1 FOLLOWING
+
+3.
+ROWS BETWEEN CURRENT ROW AND UNBOUNDED FOLLOWING
+
+4.
+ROWS UNBOUNDED PRECEDING
+
+정답
+
+4번
+
+ROWS UNBOUNDED PRECEDING
+
+해설
+
+ROWS UNBOUNDED PRECEDING은 ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW와 같으며, 첫 행부터 현재 행까지를 누적하므로 누적합계가 된다. ① 전체 행을 대상으로 해 모든 행이 총합으로 동일해지고, ② 앞뒤 1행씩(3행) 이동합계, ③ 현재 행부터 마지막까지의 역방향 누적이 된다.
