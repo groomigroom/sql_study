@@ -1,0 +1,42 @@
+문제 42
+
+4지선다
+다음 [고객] 테이블에서 유효한 이메일 형식(영문자, 숫자, 언더바의 조합 @ 영문자, 숫자, 언더바의 조합.com 형태)을 가진 고객의 수를 계산하는 SQL 문으로 가장 올바른 것은? (Oracle 기준)
+
+[고객]
+
+고객ID	이메일
+100	dev_1@oracle.com
+200	master@test
+300	admin.user@db.com
+400	info@korea.com
+1.
+SELECT COUNT(*) FROM 고객 WHERE REGEXP_LIKE(이메일, '^\w+@\w+\.com$');
+
+2.
+SELECT COUNT(*) FROM 고객 WHERE REGEXP_LIKE(이메일, '^\w*@\w*.com$');
+
+3.
+SELECT COUNT(*) FROM 고객 WHERE REGEXP_LIKE(이메일, '.*@.*\.com');
+
+4.
+SELECT COUNT(*) FROM 고객 WHERE REGEXP_LIKE(이메일, '[a-zA-Z0-9]@[a-zA-Z0-9].com');
+
+정답
+
+1번
+
+SELECT COUNT(*) FROM 고객 WHERE REGEXP_LIKE(이메일, '^\w+@\w+\.com$');
+
+해설
+
+정답: 1. 요구 형식은 (영문자·숫자·언더바)+ @ (영문자·숫자·언더바)+ .com 이고 \w가 정확히 [A-Za-z0-9_]에 대응한다. 패턴 '^\w+@\w+.com$'은 시작/끝을 고정(^ $)하고 점을 .으로 리터럴 처리하므로, dev_1@oracle.com과 info@korea.com만 매칭되어 2건이 된다. master@test는 .com이 없고, admin.user@db.com은 로컬부에 점이 있어 \w+가 @까지 도달하지 못해 제외된다.
+
+오답 풀이
+
+①: 정답.
+②: 점을 이스케이프하지 않아(.com) '.'이 임의 문자와 매칭되고, \w*는 빈 로컬부도 허용해 형식 검증이 느슨하다.
+③: .*가 점·@를 포함한 아무 문자나 허용하고 ^ $ 고정도 없어 admin.user@db.com까지 통과시킨다.
+④: 단일 문자 한 글자만(+ 없음) 요구하고 .com의 점도 이스케이프하지 않아 길이가 긴 실제 이메일을 못 잡는다.
+보충 개념
+정규식에서 점(.)은 임의 한 문자를 뜻하므로 리터럴 마침표는 .으로 써야 한다. ^와 $로 전체를 고정하고 +(1회 이상)로 최소 길이를 강제해야 형식 검증이 정확해진다.
