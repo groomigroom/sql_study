@@ -1,0 +1,27 @@
+문제 40
+
+4지선다
+다음 SQL 중 실행 시 오류가 발생하는 것은? (Oracle 기준, [판매] 테이블에는 제품명·단가·수량 컬럼이 있다)
+
+1.
+SELECT 제품명, 단가 * 수량 AS 제품코드 FROM 판매 ORDER BY 제품코드;
+
+2.
+SELECT 제품명, 단가 FROM 판매 ORDER BY 2;
+
+3.
+SELECT 제품명, SUM(수량) AS 총수량 FROM 판매 GROUP BY 제품명;
+
+4.
+SELECT 제품명, 단가 * 수량 AS 제품코드 FROM 판매 WHERE 제품코드 > 1000;
+
+정답
+
+4번
+
+SELECT 제품명, 단가 * 수량 AS 제품코드 FROM 판매 WHERE 제품코드 > 1000;
+
+해설
+
+SELECT 문의 논리적 처리 순서는 FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY 이다. 컬럼 별칭(AS 제품코드)은 SELECT 단계에서 비로소 정의되므로, 그보다 먼저 처리되는 WHERE 절에서는 별칭을 참조할 수 없다. 따라서 ④는 'WHERE 제품코드 > 1000'에서 별칭을 사용해 오류가 난다(원식 '단가*수량 > 1000'으로 써야 함). → 정답 ④.
+① ORDER BY 는 SELECT 이후에 처리되어 별칭 참조가 허용되므로 정상. ② ORDER BY 2 는 SELECT 목록의 두 번째 컬럼(단가)으로 정렬하는 위치 지정 방식으로 정상. ③ GROUP BY 제품명 에 대해 SUM 집계로 정상 실행된다. 별칭은 WHERE·GROUP BY·HAVING 에서는 못 쓰고 ORDER BY 에서만 쓸 수 있다는 규칙이 핵심이다.
