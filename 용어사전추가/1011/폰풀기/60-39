@@ -1,0 +1,46 @@
+문제 39
+
+4지선다
+다음 MERGE 문을 실행한 후 [대상] 테이블의 상태로 옳은 것은?
+
+[대상] (실행 전)
+
+ID	값
+1	50
+2	50
+[원본]
+
+ID	값
+1	100
+2	100
+3	100
+SQL
+MERGE INTO 대상 T
+USING 원본 S
+ON (T.ID = S.ID)
+WHEN MATCHED THEN
+  UPDATE SET T.값 = S.값
+WHEN NOT MATCHED THEN
+  INSERT (ID, 값) VALUES (S.ID, S.값);
+1.
+ID1=100, ID2=100, ID3=100 (3행)
+
+2.
+ID1=50, ID2=50, ID3=100 (3행)
+
+3.
+ID1=100, ID2=100 (2행)
+
+4.
+ID1=50, ID2=50 (2행)
+
+정답
+
+1번
+
+ID1=100, ID2=100, ID3=100 (3행)
+
+해설
+
+MERGE 는 원본 각 행을 대상과 ON 조건으로 비교한다. ID 1·2 는 대상에 이미 존재(MATCHED)하므로 UPDATE 로 값이 100 으로 갱신되고, ID 3 은 대상에 없으므로(NOT MATCHED) 값 100 으로 INSERT 된다. 결과 대상은 (1,100),(2,100),(3,100) 세 행 모두 100. → 정답 ①.
+② 는 MATCHED 행이 갱신되지 않았다고 본 오답, ③ 은 NOT MATCHED INSERT 가 없었다고 본 오답, ④ 는 UPDATE·INSERT 둘 다 반영하지 않은 오답이다. MERGE 는 UPDATE(있으면 갱신)와 INSERT(없으면 삽입)를 한 문장으로 처리하는 UPSERT 구문이라는 점이 핵심이다.
