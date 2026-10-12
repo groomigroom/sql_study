@@ -1,0 +1,40 @@
+문제 22
+
+4지선다
+칼럼 값이 NULL일 때, 다음 중 반환 결과가 다른 것은?
+
+1.
+CASE 칼럼 WHEN NULL THEN -1 ELSE 0 END
+
+2.
+CASE WHEN 칼럼 IS NULL THEN -1 ELSE 0 END
+
+3.
+DECODE(칼럼, NULL, -1, 0)
+
+4.
+NVL2(칼럼,0,-1)
+
+정답
+
+1번
+
+CASE 칼럼 WHEN NULL THEN -1 ELSE 0 END
+
+해설
+
+정답: ①
+
+해설:
+칼럼 값이 NULL일 때 각 보기의 반환 결과는 다음과 같다.
+
+① CASE 칼럼 WHEN NULL THEN -1 ELSE 0 END → 0
+② CASE WHEN 칼럼 IS NULL THEN -1 ELSE 0 END → -1
+③ DECODE(칼럼, NULL, -1, 0) → -1
+④ NVL2(칼럼, 0, -1) → -1
+
+①은 단순 CASE문(Simple CASE)으로, CASE 칼럼 WHEN NULL은 내부적으로 칼럼 = NULL 비교처럼 동작한다. SQL에서 NULL = NULL은 TRUE가 아니라 UNKNOWN이므로 WHEN 절이 참이 되지 않아 THEN(-1)이 실행되지 않고 ELSE(0)이 반환된다. 따라서 칼럼 값이 NULL이어도 0을 반환한다.
+
+반면 ②~④는 모두 NULL일 때 -1을 반환한다. ② IS NULL은 NULL을 직접 판별하고, ③ Oracle DECODE는 일반 비교와 달리 NULL끼리를 같은 값으로 취급하며, ④ NVL2(칼럼, 0, -1)은 칼럼이 NULL이면 세 번째 인수인 -1을 반환한다.
+
+핵심은 일반적인 NULL 판별에는 = 비교가 아니라 IS NULL을 사용해야 한다는 점이다. ①처럼 단순 CASE에서 WHEN NULL로 비교하면 NULL을 판별하지 못한다. 따라서 칼럼 값이 NULL인 경우에도 THEN(-1)이 실행되지 않고 ELSE(0)이 반환되어, NULL일 때 -1을 반환하는 ②③④와 결과가 달라진다.
