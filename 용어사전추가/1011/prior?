@@ -1,0 +1,51 @@
+문제 35
+
+4지선다
+다음 SQL의 실행 결과로 가장 적절한 것은?
+
+<T>
+
+COL1	COL2	COL3
+A	(NULL)	1
+B	A	2
+C	B	3
+D	C	4
+<조건>
+
+COL2는 COL1의 상위 노드를 가리킨다.
+SQL
+SELECT COUNT(*) AS CNT
+  FROM T
+ WHERE COL3 <> 3
+ START WITH COL1 = 'D'
+CONNECT BY COL1 = PRIOR COL2;
+1.
+1
+
+2.
+2
+
+3.
+3
+
+4.
+4
+
+정답
+
+3번
+
+3
+
+해설
+
+정답: 3. CONNECT BY COL1 = PRIOR COL2는 현재 행의 상위 노드를 따라 위로 거슬러 올라가는 역방향 전개다. START WITH COL1 = 'D'에서 시작하면 D → C → B → A 순으로 전개되어 COL3가 4, 3, 2, 1인 네 행이 계층 결과로 만들어진다. 여기에 WHERE COL3 <> 3이 적용되어 COL3=3인 C 한 행만 결과에서 제외되므로 COUNT(*)는 3이다.
+
+오답 풀이
+
+①: 1은 시작 행 하나만 센 값이며, CONNECT BY가 상위 노드를 계속 따라 올라간다.
+②: 2는 전개가 C에서 멈춘 경우인데, WHERE 절은 전개를 중단시키지 않는다.
+③: 정답. 전개된 4행에서 COL3=3인 한 행을 뺀 3이다.
+④: 4는 WHERE 조건을 적용하지 않은 계층 전개 결과 그대로다.
+보충 개념
+계층 질의에서 WHERE 절은 전개가 모두 끝난 뒤 결과 행을 걸러낼 뿐 가지 자체를 자르지 않는다. 전개를 중단시키려면 CONNECT BY 절 안에 조건을 넣거나 AND 조건을 붙여야 한다.
