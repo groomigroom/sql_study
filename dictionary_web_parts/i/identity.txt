@@ -1,0 +1,29 @@
+IDENTITY(1,1)은 SQL(특히 MS-SQL / SQL Server)에서 새로운 행이 추가될 때마다 특정 컬럼의 값을 자동으로 생성하고 증가시키는 설정을 의미합니다.
+보통 테이블의 고유한 식별자(기본키, Primary Key)를 만들 때 자주 사용됩니다.
+
+🔍 숫자의 의미: (시작 값, 증가 값)
+
+• 앞의 숫자 1 (Seed): 테이블에 데이터가 처음 들어갈 때 시작할 시작 번호입니다.
+• 뒤의 숫자 1 (Increment): 데이터가 하나씩 추가될 때마다 얼마만큼 증가할지를 나타냅니다.
+즉, IDENTITY(1,1)을 사용하면 데이터가 저장될 때마다 번호가 1, 2, 3, 4, 5... 순서로 자동 입력됩니다.
+
+💻 사용 예시
+
+sql
+CREATE TABLE Users (
+    UserID INT IDENTITY(1,1) PRIMARY KEY, -- 자동으로 1부터 1씩 증가
+    UserName NVARCHAR(50)
+);
+코드를 사용할 때는 주의가 필요합니다.
+이 테이블에 데이터를 넣을 때는 UserID를 직접 입력하지 않고 UserName만 넣습니다.
+sql
+INSERT INTO Users (UserName) VALUES ('홍길동'); -- UserID = 1 자동 입력
+INSERT INTO Users (UserName) VALUES ('김철수'); -- UserID = 2 자동 입력
+INSERT INTO Users (UserName) VALUES ('이영희'); -- UserID = 3 자동 입력
+코드를 사용할 때는 주의가 필요합니다.
+
+💡 다른 설정 예시
+
+• IDENTITY(100, 5): 100부터 시작해서 5씩 증가합니다. (100, 105, 110...)
+• IDENTITY(1, 1)은 생략하고 IDENTITY라고만 적어도 기본적으로 (1,1)로 작동합니다.
+IDENTITY 컬럼과 관련해서 데이터를 삭제했을 때 번호가 건너뛰어지는 문제나, 중간에 번호를 강제로 넣는 방법(IDENTITY_INSERT)에 대해서도 궁금하신가요? 관련해서 더 필요한 정보가 있다면 말씀해 주세요!
