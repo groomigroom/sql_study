@@ -1,0 +1,13 @@
+MySQL 테이블의 최대 컬럼(열) 수는 4096개입니다. [1] (https://translate.google.com/translate?u=https://www.quora.com/How-many-columns-can-a-row-have-in-a-MySQL-database&hl=ko&sl=en&tl=ko&client=sge)
+다만 사용하는 스토리지 엔진(Storage Engine)이나 행(Row)의 크기 제한에 따라 실제로 생성 가능한 컬럼 수는 이보다 적어질 수 있습니다. [1] (http://www.innodbcluster.com/?depth=271004), [2] (https://dung-beetle.tistory.com/53)
+
+주요 스토리지 엔진별 컬럼 제한
+
+• InnoDB (현재 기본 엔진): 엔진 자체의 제한으로 인해 최대 1017개의 컬럼을 지원합니다 (v5.6.9 이상 기준, v5.6.8 이하는 1000개).
+• MyISAM: 최대 4096개의 컬럼을 지원합니다. [1] (https://rhymix.org/qna/359945), [2] (https://dung-beetle.tistory.com/53)
+
+주의해야 할 추가 제한 사항
+
+• 행(Row) 크기 제한: MySQL은 한 행에 저장할 수 있는 데이터 크기가 최대 65,536바이트(64KB)로 제한됩니다 (BLOB, TEXT 등 외부 저장 영역을 쓰는 타입 제외). 따라서 컬럼을 4096개까지 가득 채우더라도 각 컬럼의 데이터 크기 총합이 65,536바이트를 넘어가면 테이블 생성이 거부됩니다. [1] (https://translate.google.com/translate?u=https://www.quora.com/How-many-columns-can-a-row-have-in-a-MySQL-database&hl=ko&sl=en&tl=ko&client=sge)
+• 적정 컬럼 수: 기술적으로는 1000개 이상 가능하지만, 실무에서는 성능 저하와 유지보수 어려움 때문에 보통 40개 내외로 설계하는 것을 권장합니다. [1] (https://dung-beetle.tistory.com/53)
+만약 특정 스토리지 엔진이나 데이터 타입(VARCHAR, TEXT 등)을 사용할 때의 구체적인 설계 용량이 궁금하시다면 편하게 말씀해 주세요.
