@@ -29,6 +29,36 @@ SELECT MOD(5,4), 5 MOD 4, 5 % 4 ;
 -- 6-7
 SELECT POWER(4,3), SQRT(3), SIGN(5), SIGN(-7);
 
+SQL에서 SIGN 함수는 전달된 숫자 값이나 수식의 부호(양수, 음수, 0)를 판별하여 특정 값을 반환하는 내장 함수입니다. [1] (https://devchaeyoung.tistory.com/entry/SQL-%EC%9D%8C%EC%88%98-%EC%96%91%EC%88%98-%ED%99%95%EC%9D%B8%ED%95%98%EA%B8%B0-SIGN-%ED%95%A8%EC%88%98)
+
+반환값
+
+• 1 : 입력값이 양수일 때 (> 0)
+• 0 : 입력값이 0일 때 (= 0)
+• -1 : 입력값이 음수일 때 (< 0)
+• NULL : 입력값이 NULL일 때 (대부분의 SQL에서 NULL 반환) [1] (https://doris.apache.org/ko/docs/dev/sql-manual/sql-functions/scalar-functions/numeric-functions/sign/), [2] (https://gent.tistory.com/566)
+
+기본 문법
+
+sql
+SIGN(numeric_expression)
+코드를 사용할 때는 주의가 필요합니다.
+• 인수(numeric_expression): 부호를 판별할 숫자, 컬럼, 혹은 연산 수식
+• 지원하는 주요 데이터베이스: Oracle, MS-SQL (Transact-SQL), MySQL, PostgreSQL, IBM Db2 등 대부분의 주요 SQL에서 지원합니다. 공식 사용법은 Microsoft Learn SIGN 함수 문서 등에서 확인하실 수 있습니다. [1] (https://blog.naver.com/regenesis90/222252923499), [2] (https://www.youtube.com/watch?v=kxfrg09K_1A&t=15), [3] (https://www.ibm.com/docs/ko/db2-for-zos/13.0.0?topic=functions-sign), [4] (https://m.blog.naver.com/seek316/222111832628), [5] (https://learn.microsoft.com/ko-kr/sql/t-sql/functions/sign-transact-sql?view=sql-server-ver17)
+
+사용 예시
+
+1. 상수값 판별sql
+SELECT SIGN(50), SIGN(-15), SIGN(0);
+-- 결과: 1, -1, 0
+코드를 사용할 때는 주의가 필요합니다.
+2. 수식 결과의 부호 판별sql
+SELECT SIGN(10 - 20) AS res1, SIGN(30 - 30) AS res2, SIGN(50 - 10) AS res3;
+-- 결과: res1 = -1, res2 = 0, res3 = 1
+코드를 사용할 때는 주의가 필요합니다.
+3. 테이블 컬럼 및 데이터 비교 활용
+	• 특정 기준값과의 차이가 양수인지 음수인지 분류하거나, GROUP BY 또는 ORDER BY, CASE 문과 조합하여 데이터의 증감 추세를 판별할 때 유용하게 쓰입니다. [1] (https://blog.naver.com/regenesis90/222252923499), [2] (https://gent.tistory.com/566), [3] (https://devchaeyoung.tistory.com/entry/SQL-%EC%9D%8C%EC%88%98-%EC%96%91%EC%88%98-%ED%99%95%EC%9D%B8%ED%95%98%EA%B8%B0-SIGN-%ED%95%A8%EC%88%98)
+만약 특정 데이터베이스(Oracle, MySQL, MS-SQL 등)에서 실제로 적용하려는 쿼리나 테이블 구조가 있다면 알려주세요. 맞춤형 예시를 작성해 드릴 수 있습니다.
 
 
 -- 6-8 round (x, d)는 x를 소수점 이하 d자리까지 반올림. TRUNCATE (x, d)는 x를 소수점 이하 d 자리에서 잘라냄.
