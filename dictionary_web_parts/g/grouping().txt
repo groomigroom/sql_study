@@ -21,7 +21,8 @@ GROUP BY 절에 ROLLUP, CUBE, GROUPING SETS 같은 확장 함수를 쓰면 그�
 * 
 
 ## 💡 실제 활용 예시
-소계나 총계가 계산된 자리에 NULL 대신 '소계' 또는 '총계'라는 명확한 글자를 표시하고 싶을 때 [Microsoft Learn의 GROUPING 가이드](https://learn.microsoft.com/ko-kr/sql/t-sql/functions/grouping-transact-sql?view=sql-server-ver17)에 따라 CASE문이나 DECODE와 조합하여 자주 사용합니다. [9, 10] 
+소계나 총계가 계산된 자리에 NULL 대신 '소계' 또는 '총계'라는 명확한 글자를 표시하고 싶을 때 [Microsoft Learn의 GROUPING 가이드]
+(https://learn.microsoft.com/ko-kr/sql/t-sql/functions/grouping-transact-sql?view=sql-server-ver17)에 따라 CASE문이나 DECODE와 조합하여 자주 사용합니다. [9, 10] 
 
 SELECT 
     CASE WHEN GROUPING(부서ID) = 1 THEN '모든부서 합계' ELSE 부서ID END AS 부서,
@@ -29,14 +30,3 @@ SELECT
 
 ------------------------------
 현재 SQL에서 그룹화를 구현하는 중이신가요? 어떤 DBMS(Oracle, MySQL, SQL Server 등)를 사용 중인지, 혹은 소계/총계 계산이 필요하신 상황인지 말씀해 주시면 맞춤형 쿼리 예시를 제공해 드릴 수 있습니다.
-
-[1] [https://jangju-script.tistory.com](https://jangju-script.tistory.com/34)
-[2] [https://www.dbgate.io](https://www.dbgate.io/ko/news/2026-04-08-sql-group-by-tutorial/)
-[3] [https://kr.linkedin.com](https://kr.linkedin.com/pulse/optimizing-sql-performance-distinct-vs-group-fact-analysis-rahman-z5sec?tl=ko)
-[4] [https://jofestudio.tistory.com](https://jofestudio.tistory.com/123)
-[5] [https://leapcell.io](https://leapcell.io/blog/ko/sql-queryeseo-grouping-ihae)
-[6] [https://m.blog.naver.com](https://m.blog.naver.com/regenesis90/222185989457)
-[7] [https://jsum01.tistory.com](https://jsum01.tistory.com/28)
-[8] [https://clickhouse.com](https://clickhouse.com/docs/ko/sql-reference/aggregate-functions/grouping_function)
-[9] [https://learn.microsoft.com](https://learn.microsoft.com/ko-kr/sql/t-sql/functions/grouping-transact-sql?view=sql-server-ver17)
-[10] [https://engineering-skcc.github.io](https://engineering-skcc.github.io/sql/ROLLUP%EA%B3%BC-Grouping/)
